@@ -31,6 +31,12 @@ public class Course implements Cloneable {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Task> tasks = new ArrayList<>();
 
+//    @ManyToMany(mappedBy = "courses")
+//    private List<Student> students = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course", orphanRemoval = true)
+    private List<StudentData> studentDataList = new ArrayList<>();
+
     @Column(name = "entry_start_date", nullable = false)
     private LocalDateTime entryStartDate = LocalDateTime.now();
 

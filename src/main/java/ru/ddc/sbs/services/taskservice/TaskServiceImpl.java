@@ -80,13 +80,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> getTaskHistory(Long courseId, Long taskId) {
-        List<Task> taskHistory = new ArrayList<>();
+    public List<Task> getListOfTaskChanges(Long courseId, Long taskId) {
+        List<Task> listOfTaskChanges = new ArrayList<>();
         Task task = getActiveTask(courseId, taskId);
         do {
-            taskHistory.add(task);
+            listOfTaskChanges.add(task);
             task = task.getLinkToPreviousEntry();
         } while (task != null);
-        return taskHistory;
+        return listOfTaskChanges;
     }
 }

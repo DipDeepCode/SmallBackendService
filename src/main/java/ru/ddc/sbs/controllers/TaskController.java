@@ -51,10 +51,10 @@ public class TaskController {
         return customMapper.map(taskService.updateActiveTask(courseId, taskId, newName, newDeadline, newHighestMark), TaskDto.class);
     }
 
-    @GetMapping("/getTaskHistory")
-    public List<TaskDto> getTaskHistory(@RequestParam Long courseId,
-                                        @RequestParam Long taskId) {
-        return customMapper.mapList(taskService.getTaskHistory(courseId, taskId), TaskDto.class);
+    @GetMapping("/getListOfTaskChanges")
+    public List<TaskDto> getListOfTaskChanges(@RequestParam Long courseId,
+                                              @RequestParam Long taskId) {
+        return customMapper.mapList(taskService.getListOfTaskChanges(courseId, taskId), TaskDto.class);
     }
 
     @DeleteMapping("/removeTask")

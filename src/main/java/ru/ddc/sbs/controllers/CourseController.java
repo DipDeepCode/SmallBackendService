@@ -49,9 +49,9 @@ public class CourseController {
         return customMapper.map(courseService.updateCourse(courseId, newName, newStartDate, newEndDate), CourseDto.class);
     }
 
-    @GetMapping("/getCourseHistory")
-    public List<CourseDto> getCourseHistory(@RequestParam Long courseId) {
-        return customMapper.mapList(courseService.getCourseHistory(courseId), CourseDto.class);
+    @GetMapping("/getListOfCourseChanges")
+    public List<CourseDto> getListOfCourseChanges(@RequestParam Long courseId) {
+        return customMapper.mapList(courseService.getListOfCourseChanges(courseId), CourseDto.class);
     }
 
     @DeleteMapping("/removeCourse")

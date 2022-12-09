@@ -1,6 +1,7 @@
 package ru.ddc.sbs.services.courseservice;
 
 import ru.ddc.sbs.entities.Course;
+import ru.ddc.sbs.entities.Student;
 import ru.ddc.sbs.exceptions.AddEntityException;
 
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ public interface CourseService {
     List<Course> getAllActiveCourses();
     Course getActiveCourse(Long courseId);
     Course updateCourse(Long courseId, String newName, LocalDate newStartDate, LocalDate newEndDate);
-    List<Course> getCourseHistory(Long courseId);
+    List<Course> getListOfCourseChanges(Long courseId);
     void removeCourse(Long courseId);
+    List<Student> getStudents(Long courseId);
 }

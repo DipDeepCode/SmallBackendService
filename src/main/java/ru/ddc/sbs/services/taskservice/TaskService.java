@@ -17,5 +17,5 @@ public interface TaskService {
                           LocalDateTime newDeadline,
                           Integer newHighestMark) throws AddEntityException;
     void removeTask(Long courseId, Long taskId);
-    List<Task> getTaskHistory(Long courseId, Long taskId);
+    List<Task> getListOfTaskChanges(Long courseId, Long taskId);
 }

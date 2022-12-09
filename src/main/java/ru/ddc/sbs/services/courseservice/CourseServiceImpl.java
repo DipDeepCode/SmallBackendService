@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ddc.sbs.entities.Course;
+import ru.ddc.sbs.entities.Student;
 import ru.ddc.sbs.exceptions.AddEntityException;
 import ru.ddc.sbs.repositories.CourseRepository;
 
@@ -52,6 +53,7 @@ public class CourseServiceImpl implements CourseService {
         originalCourse.setIsActive(false);
         originalCourse.setEntryEndDate(updateDateTime);
         originalCourse.setTasks(null);
+//        originalCourse.setStudents(null);
         courseRepository.save(originalCourse);
 
         clonedCourse.setId(null);
@@ -59,20 +61,24 @@ public class CourseServiceImpl implements CourseService {
         clonedCourse.setStartDate(newStartDate);
         clonedCourse.setEndDate(newEndDate);
         clonedCourse.getTasks().forEach(task -> task.setCourse(clonedCourse));
+//        clonedCourse.getStudents().forEach(student -> {
+//            student.getCourses().remove(originalCourse);
+//            student.getCourses().add(clonedCourse);
+//        });
         clonedCourse.setEntryStartDate(updateDateTime);
         clonedCourse.setLinkToPreviousEntry(originalCourse);
         return courseRepository.save(clonedCourse);
     }
 
     @Override
-    public List<Course> getCourseHistory(Long courseId) {
-        List<Course> courseHistory = new ArrayList<>();
+    public List<Course> getListOfCourseChanges(Long courseId) {
+        List<Course> listOfCourseChanges = new ArrayList<>();
         Course course = getActiveCourse(courseId);
         do {
-            courseHistory.add(course);
+            listOfCourseChanges.add(course);
             course = course.getLinkToPreviousEntry();
         } while (course != null);
-        return courseHistory;
+        return listOfCourseChanges;
     }
 
     @Transactional
@@ -82,5 +88,10 @@ public class CourseServiceImpl implements CourseService {
         course.setIsActive(false);
         course.setEntryEndDate(LocalDateTime.now());
         courseRepository.save(course);
+    }
+
+    @Override
+    public List<Student> getStudents(Long courseId) {
+        return null;//getActiveCourse(courseId).getStudents();
     }
 }
