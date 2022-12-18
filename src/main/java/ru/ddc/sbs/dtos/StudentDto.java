@@ -7,8 +7,6 @@ import lombok.Setter;
 @Setter
 public class StudentDto {
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String patronymic;
+    private FullNameDto fullNameDto;
     private String groupNumber;
 }

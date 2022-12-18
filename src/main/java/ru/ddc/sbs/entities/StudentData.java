@@ -1,41 +1,66 @@
 package ru.ddc.sbs.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.*;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "student_data")
 public class StudentData {
     @EmbeddedId
     private StudentDataKey studentDataKey;
 
-//    @ManyToOne
-//    @MapsId
-//    @JoinColumn(name = "student_id")
-//    private Student student;
-
-//    @ManyToOne
-//    @MapsId
-//    @JoinColumn(name = "course_id")
-//    private Course course;
-
-    @ManyToOne
+    @ManyToOne(optional = false)
     @MapsId("studentId")
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @MapsId("courseId")
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @Column(name = "rating")
+    @Column(name = "rating", nullable = false)
     private Double rating;
 
-    @Column(name = "is_credited")
-    private Boolean isCredited;
+    @Column(name = "is_credited", nullable = false)
+    private Boolean isCredited = false;
+
+    public StudentDataKey getStudentDataKey() {
+        return studentDataKey;
+    }
+
+    public void setStudentDataKey(StudentDataKey studentDataKey) {
+        this.studentDataKey = studentDataKey;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public Boolean getCredited() {
+        return isCredited;
+    }
+
+    public void setCredited(Boolean credited) {
+        isCredited = credited;
+    }
 }

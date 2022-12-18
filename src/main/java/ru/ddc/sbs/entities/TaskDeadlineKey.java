@@ -7,12 +7,12 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class StudentDataKey implements Serializable {
+public class TaskDeadlineKey implements Serializable {
     @Serial
-    private static final long serialVersionUID = -2203844011030177264L;
+    private static final long serialVersionUID = 6961366307750059708L;
 
-    @Column(name = "student_id", nullable = false)
-    private Long studentId;
+    @Column(name = "task_id", nullable = false)
+    private Long taskId;
 
     @Column(name = "course_id", nullable = false)
     private Long courseId;
@@ -22,25 +22,25 @@ public class StudentDataKey implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        StudentDataKey that = (StudentDataKey) o;
+        TaskDeadlineKey that = (TaskDeadlineKey) o;
 
-        if (!Objects.equals(studentId, that.studentId)) return false;
+        if (!Objects.equals(taskId, that.taskId)) return false;
         return Objects.equals(courseId, that.courseId);
     }
 
     @Override
     public int hashCode() {
-        int result = studentId != null ? studentId.hashCode() : 0;
+        int result = taskId != null ? taskId.hashCode() : 0;
         result = 31 * result + (courseId != null ? courseId.hashCode() : 0);
         return result;
     }
 
-    public Long getStudentId() {
-        return studentId;
+    public Long getTaskId() {
+        return taskId;
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
     }
 
     public Long getCourseId() {
