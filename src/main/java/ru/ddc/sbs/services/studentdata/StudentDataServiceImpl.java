@@ -13,6 +13,7 @@ import ru.ddc.sbs.services.course.CourseService;
 import ru.ddc.sbs.services.ratingcalculation.StudentDataCalculation;
 import ru.ddc.sbs.services.student.StudentService;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -45,12 +46,13 @@ public class StudentDataServiceImpl implements StudentDataService {
 
     @Override
     public StudentData findStudentData(Long courseId, Long studentId) {
-        return studentDataRepository.findByStudentDataKey_StudentIdAndStudentDataKey_CourseId(studentId, courseId).orElseThrow();
+        return studentDataRepository.findByStudentDataKey_StudentIdAndStudentDataKey_CourseId(studentId, courseId)
+                .orElseThrow(() -> new EntityNotFoundException("Данные по студенту не найдены"));
     }
 
     @Override
     public List<StudentData> findStudentDataByStudentId(Long studentId) {
-        return studentDataRepository.findByStudentDataKey_StudentId(studentId);//studentDataList;
+        return studentDataRepository.findByStudentDataKey_StudentId(studentId);
     }
 
     @Override

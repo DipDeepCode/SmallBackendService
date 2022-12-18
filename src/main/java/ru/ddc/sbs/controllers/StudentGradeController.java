@@ -3,7 +3,7 @@ package ru.ddc.sbs.controllers;
 import org.springframework.web.bind.annotation.*;
 import ru.ddc.sbs.custommapper.CustomMapper;
 import ru.ddc.sbs.dtos.StudentGradeDto;
-import ru.ddc.sbs.exceptions.PersistException;
+import ru.ddc.sbs.exceptions.ApiError;
 import ru.ddc.sbs.services.studentgrade.StudentGradeService;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class StudentGradeController {
     public void addGrade(@RequestParam Long studentId,
                          @RequestParam Long courseId,
                          @RequestParam Long taskId,
-                         @RequestParam Integer grade) throws PersistException {
+                         @RequestParam Integer grade) throws ApiError {
         studentGradeService.addGrade(studentId, courseId, taskId, grade);
     }
 
@@ -38,7 +38,7 @@ public class StudentGradeController {
     public void updateGrade(@RequestParam Long studentId,
                             @RequestParam Long courseId,
                             @RequestParam Long taskId,
-                            @RequestParam Integer newGrade) throws PersistException {
+                            @RequestParam Integer newGrade) throws ApiError {
         studentGradeService.addGrade(studentId, courseId, taskId, newGrade);
     }
 }

@@ -10,8 +10,9 @@ import ru.ddc.sbs.entities.Student;
 import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    List<Student> findByGroupNumber(String groupNumber);
-    List<Student> findByFullName(FullName fullName);
+    List<Student> findByOrderByFullName_FirstNameAscFullName_LastNameAscFullName_PatronymicAsc();
+    List<Student> findByGroupNumberOrderByFullName_FirstNameAscFullName_LastNameAscFullName_PatronymicAsc(String groupNumber);
+    List<Student> findByFullNameOrderByGroupNumber(FullName fullName);
     @Transactional
     @Modifying
     @Query("update Student s set s.fullName = ?1, s.groupNumber = ?2 where s.id = ?3")

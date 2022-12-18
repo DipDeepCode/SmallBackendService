@@ -1,12 +1,15 @@
 package ru.ddc.sbs.services.course;
 
 import org.springframework.context.annotation.Lazy;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ru.ddc.sbs.entities.Course;
-import ru.ddc.sbs.exceptions.PersistException;
+import ru.ddc.sbs.exceptions.ApiError;
+import ru.ddc.sbs.exceptions.PersistError;
 import ru.ddc.sbs.repositories.CourseRepository;
 import ru.ddc.sbs.services.taskdeadline.TaskDeadlineService;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,31 +25,35 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course addCourse(Course course) {
-        return courseRepository.save(course);
+    public Course addCourse(Course course) throws PersistError {
+        try {
+            return courseRepository.saveAndFlush(course);
+        } catch (DataIntegrityViolationException e) {
+            throw new PersistError("Курс с таким названием уже существует");
+        }
     }
 
     @Override
     public List<Course> findAllCourses() {
-        return courseRepository.findAll();
+        return courseRepository.findALLByOrderByNameAsc();
     }
 
     @Override
     public Course findCourseById(Long courseId) {
-        return courseRepository.findById(courseId).orElseThrow();
+        return courseRepository.findById(courseId).orElseThrow(() -> new EntityNotFoundException("Курс c id = " + courseId + " не найден"));
     }
 
     @Override
     public Course findCourseByName(String courseName) {
-        return courseRepository.findByName(courseName).orElseThrow();
+        return courseRepository.findByName(courseName).orElseThrow(() -> new EntityNotFoundException("Курс с именем " + courseName + " не найден"));
     }
 
     @Override
-    public void updateCourseById(String newName, LocalDate newStartDate, LocalDate newEndDate, Long courseId) throws PersistException {
+    public void updateCourseById(String newName, LocalDate newStartDate, LocalDate newEndDate, Long courseId) throws ApiError {
         if (!taskDeadlineService.isNewStartDateIsBeforeEarliestDeadline(courseId, newStartDate)) {
-            throw new PersistException("Начальная дата курса позже первого дедлайна");
+            throw new ApiError("Начальная дата курса позже первого дедлайна");
         } else if (!taskDeadlineService.isNewEndDateIsAfterLatestDeadline(courseId, newEndDate)) {
-            throw new PersistException("Конечная дата курса раньше последнего дедлайна");
+            throw new ApiError("Конечная дата курса раньше последнего дедлайна");
         } else {
             courseRepository.updateCourseById(newName, newStartDate, newEndDate, courseId);
         }

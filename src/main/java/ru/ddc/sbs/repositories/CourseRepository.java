@@ -7,9 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.ddc.sbs.entities.Course;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
+    List<Course> findALLByOrderByNameAsc();
     Optional<Course> findByName(String name);
     @Transactional
     @Modifying

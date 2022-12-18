@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.ddc.sbs.custommapper.CustomMapper;
 import ru.ddc.sbs.dtos.TaskDto;
 import ru.ddc.sbs.entities.Task;
+import ru.ddc.sbs.exceptions.PersistError;
 import ru.ddc.sbs.services.task.TaskService;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class TaskController {
     }
 
     @PostMapping("/addTask")
-    public TaskDto addTask(@RequestBody TaskDto taskDto) {
+    public TaskDto addTask(@RequestBody TaskDto taskDto) throws PersistError {
         Task task = customMapper.map(taskDto, Task.class);
         return customMapper.map(taskService.addTask(task), TaskDto.class);
     }

@@ -4,7 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import ru.ddc.sbs.custommapper.CustomMapper;
 import ru.ddc.sbs.dtos.TaskDeadlineDto;
-import ru.ddc.sbs.exceptions.PersistException;
+import ru.ddc.sbs.exceptions.ApiError;
 import ru.ddc.sbs.services.taskdeadline.TaskDeadlineService;
 
 import java.time.LocalDateTime;
@@ -25,7 +25,7 @@ public class TaskDeadlineController {
     @PostMapping("/linkTaskToCourse")
     public void linkTaskToCourse(@RequestParam Long courseId,
                                  @RequestParam Long taskId,
-                                 @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime deadline) throws PersistException {
+                                 @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime deadline) throws ApiError {
         taskDeadlineService.linkTaskToCourse(courseId, taskId, deadline);
     }
 
@@ -43,7 +43,7 @@ public class TaskDeadlineController {
     @PutMapping("/updateDeadline")
     public void updateDeadline(@RequestParam Long courseId,
                                @RequestParam Long taskId,
-                               @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime deadline) throws PersistException {
+                               @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime deadline) throws ApiError {
         taskDeadlineService.linkTaskToCourse(courseId, taskId, deadline);
     }
 

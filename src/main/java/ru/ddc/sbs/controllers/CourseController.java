@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.ddc.sbs.custommapper.CustomMapper;
 import ru.ddc.sbs.dtos.CourseDto;
 import ru.ddc.sbs.entities.Course;
-import ru.ddc.sbs.exceptions.PersistException;
+import ru.ddc.sbs.exceptions.ApiError;
+import ru.ddc.sbs.exceptions.PersistError;
 import ru.ddc.sbs.services.course.CourseService;
 
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ public class CourseController {
     }
 
     @PostMapping("/addCourse")
-    public CourseDto addCourse(@RequestBody CourseDto courseDto) {
+    public CourseDto addCourse(@RequestBody CourseDto courseDto) throws PersistError {
         Course course = customMapper.map(courseDto, Course.class);
         return customMapper.map(courseService.addCourse(course), CourseDto.class);
     }
@@ -48,7 +49,7 @@ public class CourseController {
     public void updateCourseById(@RequestParam String newName,
                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate newStartDate,
                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate newEndDate,
-                                 @RequestParam Long courseId) throws PersistException {
+                                 @RequestParam Long courseId) throws ApiError {
         courseService.updateCourseById(newName, newStartDate, newEndDate, courseId);
     }
 

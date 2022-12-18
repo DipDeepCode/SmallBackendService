@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import ru.ddc.sbs.entities.*;
 import ru.ddc.sbs.entities.fabrics.StudentGradeFabric;
-import ru.ddc.sbs.exceptions.PersistException;
+import ru.ddc.sbs.exceptions.ApiError;
 import ru.ddc.sbs.repositories.StudentGradeRepository;
 import ru.ddc.sbs.services.course.CourseService;
 import ru.ddc.sbs.services.student.StudentService;
@@ -41,18 +41,18 @@ public class StudentGradeServiceImpl implements StudentGradeService {
     }
 
     @Override
-    public void addGrade(Long studentId, Long courseId, Long taskId, Integer grade) throws PersistException {
+    public void addGrade(Long studentId, Long courseId, Long taskId, Integer grade) throws ApiError {
         Course course = courseService.findCourseById(courseId);
         Student student = studentService.findStudentById(studentId);
         Task task = taskService.findTaskById(taskId);
         if (!taskDeadlineService.isTaskExistsInCourse(taskId, courseId)) {
-            throw new PersistException("Задание отсутствует в курсе");
+            throw new ApiError("Задание отсутствует в курсе");
         }
         if (!studentDataService.isStudentExistInCourse(studentId, courseId)) {
-            throw new PersistException("Студент не подписан на этот курс");
+            throw new ApiError("Студент не подписан на этот курс");
         }
         if (grade > task.getHighestGrade()) {
-            throw new PersistException("Оценка превышает максимально возможную");
+            throw new ApiError("Оценка превышает максимально возможные " + task.getHighestGrade() + " баллов");
         }
         StudentGrade studentGrade = studentGradeFabric.getEntity(student, course, task, grade);
         studentGradeRepository.save(studentGrade);

@@ -6,11 +6,12 @@ import ru.ddc.sbs.entities.Course;
 import ru.ddc.sbs.entities.Task;
 import ru.ddc.sbs.entities.TaskDeadline;
 import ru.ddc.sbs.entities.fabrics.TaskDeadlineFabric;
-import ru.ddc.sbs.exceptions.PersistException;
+import ru.ddc.sbs.exceptions.ApiError;
 import ru.ddc.sbs.repositories.TaskDeadlineRepository;
 import ru.ddc.sbs.services.course.CourseService;
 import ru.ddc.sbs.services.task.TaskService;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,20 +34,21 @@ public class TaskDeadlineServiceImpl implements TaskDeadlineService {
     }
 
     @Override
-    public void linkTaskToCourse(Long courseId, Long taskId, LocalDateTime deadline) throws PersistException {
+    public void linkTaskToCourse(Long courseId, Long taskId, LocalDateTime deadline) throws ApiError {
         Course course = courseService.findCourseById(courseId);
         Task task = taskService.findTaskById(taskId);
         TaskDeadline taskDeadline = taskDeadlineFabric.getEntity(course, task, deadline);
         if (isDeadlineWithinTheCourse(course, deadline)) {
             taskDeadlineRepository.save(taskDeadline);
         } else {
-            throw new PersistException("Дедлайн выходит за пределы курса");
+            throw new ApiError("Дедлайн выходит за пределы курса");
         }
     }
 
     @Override
     public TaskDeadline findTask(Long courseId, Long taskId) {
-        return taskDeadlineRepository.findByTaskDeadlineKey_CourseIdAndTaskDeadlineKey_TaskId(courseId, taskId).orElseThrow();
+        return taskDeadlineRepository.findByTaskDeadlineKey_CourseIdAndTaskDeadlineKey_TaskId(courseId, taskId)
+                .orElseThrow(() -> new EntityNotFoundException("Задания с id = " + taskId + " нет в курсе с id = " + courseId));
     }
 
     @Override
@@ -57,7 +59,6 @@ public class TaskDeadlineServiceImpl implements TaskDeadlineService {
     @Transactional
     @Override
     public void unlinkTaskFromCourse(Long taskId, Long courseId) {
-        // TODO добавить проверку
         taskDeadlineRepository.deleteByTaskDeadlineKey_TaskIdAndTaskDeadlineKey_CourseId(taskId, courseId);
     }
 
@@ -73,14 +74,16 @@ public class TaskDeadlineServiceImpl implements TaskDeadlineService {
 
     @Override
     public boolean isNewStartDateIsBeforeEarliestDeadline(Long courseId, LocalDate newStartDate) {
-        LocalDateTime earliestDeadline = taskDeadlineRepository.findFirstByTaskDeadlineKey_CourseIdOrderByDeadlineAsc(courseId).orElseThrow()
+        LocalDateTime earliestDeadline = taskDeadlineRepository.findFirstByTaskDeadlineKey_CourseIdOrderByDeadlineAsc(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("Дедлайн не найден"))
                 .getDeadline();
         return newStartDate.isBefore(earliestDeadline.toLocalDate());
     }
 
     @Override
     public boolean isNewEndDateIsAfterLatestDeadline(Long courseId, LocalDate newEndDate) {
-        LocalDateTime latestDeadline = taskDeadlineRepository.findFirstByTaskDeadlineKey_CourseIdOrderByDeadlineDesc(courseId).orElseThrow()
+        LocalDateTime latestDeadline = taskDeadlineRepository.findFirstByTaskDeadlineKey_CourseIdOrderByDeadlineDesc(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("Дедлайн не найден"))
                 .getDeadline();
         return newEndDate.isAfter(latestDeadline.toLocalDate());
     }

@@ -6,9 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ddc.sbs.entities.Task;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
+    List<Task> findAllByOrderByName();
     Optional<Task> findByName(String name);
     @Transactional
     @Modifying

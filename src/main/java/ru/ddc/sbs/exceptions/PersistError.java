@@ -3,10 +3,10 @@ package ru.ddc.sbs.exceptions;
 import lombok.Getter;
 
 @Getter
-public class PersistException extends Exception {
+public class PersistError extends Exception {
     private final String message;
 
-    public PersistException(String message) {
+    public PersistError(String message) {
         super(message);
         this.message = message;
     }

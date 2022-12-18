@@ -5,6 +5,7 @@ import ru.ddc.sbs.entities.FullName;
 import ru.ddc.sbs.entities.Student;
 import ru.ddc.sbs.repositories.StudentRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -22,22 +23,22 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> findAllStudents() {
-        return studentRepository.findAll();
+        return studentRepository.findByOrderByFullName_FirstNameAscFullName_LastNameAscFullName_PatronymicAsc();
     }
 
     @Override
     public List<Student> findAllStudentsByGroupName(String groupNumber) {
-        return studentRepository.findByGroupNumber(groupNumber);
+        return studentRepository.findByGroupNumberOrderByFullName_FirstNameAscFullName_LastNameAscFullName_PatronymicAsc(groupNumber);
     }
 
     @Override
     public List<Student> findAllStudentsByFullName(FullName fullName) {
-        return studentRepository.findByFullName(fullName);
+        return studentRepository.findByFullNameOrderByGroupNumber(fullName);
     }
 
     @Override
     public Student findStudentById(Long studentId) {
-        return studentRepository.findById(studentId).orElseThrow();
+        return studentRepository.findById(studentId).orElseThrow(() -> new EntityNotFoundException("Студент с id = " + studentId + " не найден"));
     }
 
     @Override
