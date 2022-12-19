@@ -23,28 +23,33 @@ public class StudentController {
 
     @PostMapping("/addStudent")
     public StudentDto addStudent(@RequestBody StudentDto studentDto) {
-        Student student = customMapper.map(studentDto, Student.class);
-        return customMapper.map(studentService.addStudent(student), StudentDto.class);
+        Student requestBodyStudent = customMapper.map(studentDto, Student.class);
+        Student addedStudent = studentService.addStudent(requestBodyStudent);
+        return customMapper.map(addedStudent, StudentDto.class);
     }
 
     @GetMapping("/findAllStudents")
     public List<StudentDto> findAllStudents() {
-        return customMapper.mapList(studentService.findAllStudents(), StudentDto.class);
+        List<Student> allStudents = studentService.findAllStudents();
+        return customMapper.mapList(allStudents, StudentDto.class);
     }
 
     @GetMapping("/findAllStudentsByGroupName")
     public List<StudentDto> findAllStudentsByGroupName(@RequestParam String groupName) {
-        return customMapper.mapList(studentService.findAllStudentsByGroupName(groupName), StudentDto.class);
+        List<Student> allStudentsByGroupName = studentService.findAllStudentsByGroupName(groupName);
+        return customMapper.mapList(allStudentsByGroupName, StudentDto.class);
     }
 
     @GetMapping("/findAllStudentsByFullName")
     public List<StudentDto> findAllStudentsByFullName(@RequestBody FullName fullName) {
-        return customMapper.mapList(studentService.findAllStudentsByFullName(fullName), StudentDto.class);
+        List<Student> allStudentsByFullName = studentService.findAllStudentsByFullName(fullName);
+        return customMapper.mapList(allStudentsByFullName, StudentDto.class);
     }
 
     @GetMapping("/findStudentById")
     public StudentDto findStudentById(@RequestParam Long studentId) {
-        return customMapper.map(studentService.findStudentById(studentId), StudentDto.class);
+        Student studentById = studentService.findStudentById(studentId);
+        return customMapper.map(studentById, StudentDto.class);
     }
 
     @PutMapping("/updateStudentById")

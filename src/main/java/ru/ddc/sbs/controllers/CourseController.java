@@ -26,23 +26,27 @@ public class CourseController {
 
     @PostMapping("/addCourse")
     public CourseDto addCourse(@RequestBody CourseDto courseDto) throws PersistError {
-        Course course = customMapper.map(courseDto, Course.class);
-        return customMapper.map(courseService.addCourse(course), CourseDto.class);
+        Course requestBodyCourse = customMapper.map(courseDto, Course.class);
+        Course addedCourse = courseService.addCourse(requestBodyCourse);
+        return customMapper.map(addedCourse, CourseDto.class);
     }
 
     @GetMapping("/findAllCourses")
     public List<CourseDto> findAllCourses() {
-        return customMapper.mapList(courseService.findAllCourses(), CourseDto.class);
+        List<Course> allCourses = courseService.findAllCourses();
+        return customMapper.mapList(allCourses, CourseDto.class);
     }
 
     @GetMapping("/findCourseById")
     public CourseDto findCourseById(@RequestParam Long courseId) {
-        return customMapper.map(courseService.findCourseById(courseId), CourseDto.class);
+        Course courseById = courseService.findCourseById(courseId);
+        return customMapper.map(courseById, CourseDto.class);
     }
 
     @GetMapping("/findCourseByName")
     public CourseDto findCourseByName(@RequestParam String courseName) {
-        return customMapper.map(courseService.findCourseByName(courseName), CourseDto.class);
+        Course courseByName = courseService.findCourseByName(courseName);
+        return customMapper.map(courseByName, CourseDto.class);
     }
 
     @PutMapping("/updateCourseById")

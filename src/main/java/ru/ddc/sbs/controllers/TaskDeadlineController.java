@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import ru.ddc.sbs.custommapper.CustomMapper;
 import ru.ddc.sbs.dtos.TaskDeadlineDto;
+import ru.ddc.sbs.entities.TaskDeadline;
 import ru.ddc.sbs.exceptions.ApiError;
 import ru.ddc.sbs.services.taskdeadline.TaskDeadlineService;
 
@@ -32,12 +33,14 @@ public class TaskDeadlineController {
     @GetMapping("/findTask")
     public TaskDeadlineDto findTask(@RequestParam Long taskId,
                                     @RequestParam Long courseId) {
-        return customMapper.map(taskDeadlineService.findTask(courseId, taskId), TaskDeadlineDto.class);
+        TaskDeadline task = taskDeadlineService.findTask(courseId, taskId);
+        return customMapper.map(task, TaskDeadlineDto.class);
     }
 
     @GetMapping("/findTasksByCourseId")
     public List<TaskDeadlineDto> findTasksByCourseId(@RequestParam Long courseId) {
-        return customMapper.mapList(taskDeadlineService.findTasksByCourseId(courseId), TaskDeadlineDto.class);
+        List<TaskDeadline> tasksByCourseId = taskDeadlineService.findTasksByCourseId(courseId);
+        return customMapper.mapList(tasksByCourseId, TaskDeadlineDto.class);
     }
 
     @PutMapping("/updateDeadline")

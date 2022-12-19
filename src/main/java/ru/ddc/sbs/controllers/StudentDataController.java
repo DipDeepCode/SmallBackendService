@@ -5,6 +5,9 @@ import ru.ddc.sbs.custommapper.CustomMapper;
 import ru.ddc.sbs.dtos.CourseDto;
 import ru.ddc.sbs.dtos.StudentDataDto;
 import ru.ddc.sbs.dtos.StudentDto;
+import ru.ddc.sbs.entities.Course;
+import ru.ddc.sbs.entities.Student;
+import ru.ddc.sbs.entities.StudentData;
 import ru.ddc.sbs.services.studentdata.StudentDataService;
 
 import java.util.List;
@@ -30,22 +33,26 @@ public class StudentDataController {
     @GetMapping("/findStudentData")
     public StudentDataDto findStudentData(@RequestParam Long courseId,
                                           @RequestParam Long studentId) {
-        return customMapper.map(studentDataService.findStudentData(courseId, studentId), StudentDataDto.class);
+        StudentData studentData = studentDataService.findStudentData(courseId, studentId);
+        return customMapper.map(studentData, StudentDataDto.class);
     }
 
     @GetMapping("/findStudentDataByStudentId")
     public List<StudentDataDto> findStudentDataByStudentId(@RequestParam Long studentId) {
-        return customMapper.mapList(studentDataService.findStudentDataByStudentId(studentId), StudentDataDto.class);
+        List<StudentData> studentDataByStudentId = studentDataService.findStudentDataByStudentId(studentId);
+        return customMapper.mapList(studentDataByStudentId, StudentDataDto.class);
     }
 
     @GetMapping("/findStudentsByCourseId")
     public List<StudentDto> findStudentsByCourseId(@RequestParam Long courseId) {
-        return customMapper.mapList(studentDataService.findStudentsByCourseId(courseId), StudentDto.class);
+        List<Student> studentsByCourseId = studentDataService.findStudentsByCourseId(courseId);
+        return customMapper.mapList(studentsByCourseId, StudentDto.class);
     }
 
     @GetMapping("/findCoursesByStudentId")
     public List<CourseDto> findCoursesByStudentId(@RequestParam Long studentId) {
-        return customMapper.mapList(studentDataService.findCoursesByStudentId(studentId), CourseDto.class);
+        List<Course> coursesByStudentId = studentDataService.findCoursesByStudentId(studentId);
+        return customMapper.mapList(coursesByStudentId, CourseDto.class);
     }
 
     @DeleteMapping("/unlinkCourseFromStudent")

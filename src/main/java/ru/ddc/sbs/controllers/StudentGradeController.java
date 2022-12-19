@@ -3,6 +3,7 @@ package ru.ddc.sbs.controllers;
 import org.springframework.web.bind.annotation.*;
 import ru.ddc.sbs.custommapper.CustomMapper;
 import ru.ddc.sbs.dtos.StudentGradeDto;
+import ru.ddc.sbs.entities.StudentGrade;
 import ru.ddc.sbs.exceptions.ApiError;
 import ru.ddc.sbs.services.studentgrade.StudentGradeService;
 
@@ -31,7 +32,8 @@ public class StudentGradeController {
     @GetMapping("/getGrades")
     public List<StudentGradeDto> getGrades(@RequestParam Long studentId,
                                            @RequestParam Long courseId) {
-        return customMapper.mapList(studentGradeService.getGrades(studentId, courseId), StudentGradeDto.class);
+        List<StudentGrade> grades = studentGradeService.getGrades(studentId, courseId);
+        return customMapper.mapList(grades, StudentGradeDto.class);
     }
 
     @PutMapping("/updateGrade")

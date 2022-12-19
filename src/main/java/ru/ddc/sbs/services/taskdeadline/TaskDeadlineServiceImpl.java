@@ -45,6 +45,11 @@ public class TaskDeadlineServiceImpl implements TaskDeadlineService {
         }
     }
 
+    private boolean isDeadlineWithinTheCourse(Course course, LocalDateTime deadline) {
+        return deadline.isAfter(course.getStartDate().atStartOfDay()) &&
+                deadline.isBefore(course.getEndDate().atStartOfDay());
+    }
+
     @Override
     public TaskDeadline findTask(Long courseId, Long taskId) {
         return taskDeadlineRepository.findByTaskDeadlineKey_CourseIdAndTaskDeadlineKey_TaskId(courseId, taskId)
@@ -65,11 +70,6 @@ public class TaskDeadlineServiceImpl implements TaskDeadlineService {
     @Override
     public Boolean isTaskExistsInCourse(Long taskId, Long courseId) {
         return taskDeadlineRepository.existsByTaskDeadlineKey_TaskIdAndTaskDeadlineKey_CourseId(taskId, courseId);
-    }
-
-    private boolean isDeadlineWithinTheCourse(Course course, LocalDateTime deadline) {
-        return deadline.isAfter(course.getStartDate().atStartOfDay()) &&
-                deadline.isBefore(course.getEndDate().atStartOfDay());
     }
 
     @Override

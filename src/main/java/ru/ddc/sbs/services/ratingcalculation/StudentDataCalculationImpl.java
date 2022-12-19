@@ -19,8 +19,6 @@ import java.util.List;
 */
 @Service
 public class StudentDataCalculationImpl implements StudentDataCalculation {
-    private static final double MIN_RATING_TO_CREDIT = 0.80d;
-
     @Override
     public Double calculateRating(List<StudentGrade> studentGradeList) {
 
@@ -37,6 +35,8 @@ public class StudentDataCalculationImpl implements StudentDataCalculation {
         BigDecimal bdRating = new BigDecimal(Double.toString(rating));
         return bdRating.setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
+
+    private static final double MIN_RATING_TO_CREDIT = 0.80d;
 
     @Override
     public Boolean calculateCredited(Double rating) {

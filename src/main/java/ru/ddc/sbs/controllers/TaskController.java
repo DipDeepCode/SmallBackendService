@@ -23,23 +23,27 @@ public class TaskController {
 
     @PostMapping("/addTask")
     public TaskDto addTask(@RequestBody TaskDto taskDto) throws PersistError {
-        Task task = customMapper.map(taskDto, Task.class);
-        return customMapper.map(taskService.addTask(task), TaskDto.class);
+        Task requestBodyTask = customMapper.map(taskDto, Task.class);
+        Task addedTask = taskService.addTask(requestBodyTask);
+        return customMapper.map(addedTask, TaskDto.class);
     }
 
     @GetMapping("/findAllTasks")
     public List<TaskDto> findAllTasks() {
-        return customMapper.mapList(taskService.findAllTasks(), TaskDto.class);
+        List<Task> allTasks = taskService.findAllTasks();
+        return customMapper.mapList(allTasks, TaskDto.class);
     }
 
     @GetMapping("/findTaskById")
     public TaskDto findTaskById(@RequestParam Long taskId) {
-        return customMapper.map(taskService.findTaskById(taskId), TaskDto.class);
+        Task taskById = taskService.findTaskById(taskId);
+        return customMapper.map(taskById, TaskDto.class);
     }
 
     @GetMapping("/findTaskByName")
     public TaskDto findTaskByName(@RequestParam String taskName) {
-        return customMapper.map(taskService.findTaskByName(taskName), TaskDto.class);
+        Task taskByName = taskService.findTaskByName(taskName);
+        return customMapper.map(taskByName, TaskDto.class);
     }
 
     @PutMapping("/updateTaskById")
