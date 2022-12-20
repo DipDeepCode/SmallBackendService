@@ -1,1 +1,11 @@
-
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://<host>:<port>/<db_name>
+    username: <username>
+    password: <password>
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
