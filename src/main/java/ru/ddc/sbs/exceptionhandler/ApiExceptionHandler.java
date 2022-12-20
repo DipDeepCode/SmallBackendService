@@ -3,6 +3,7 @@ package ru.ddc.sbs.exceptionhandler;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +18,7 @@ import javax.persistence.EntityNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static ru.ddc.sbs.apiresponse.ApiResponseCode.*;
 
@@ -59,6 +61,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ApiResponse response = apiResponseBuilder.buildErrorResponse(ARGUMENT_NOT_VALID, messages.toString());
         return new ResponseEntity<>(response, status);
     }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status,
+                                                                  WebRequest request) {
+        String message = Objects.requireNonNull(ex.getRootCause()).getMessage();
+        ApiResponse response = apiResponseBuilder.buildErrorResponse(ARGUMENT_NOT_VALID, message);
+        return new ResponseEntity<>(response, status);
+    }
+
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex,
                                                              Object body,
