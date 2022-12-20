@@ -1,57 +1,42 @@
 package ru.ddc.sbs.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "task")
-public class Task implements Cloneable {
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @JsonIgnore
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
-
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "deadline", nullable = false)
-    private LocalDateTime deadline;
+    @Column(name = "highest_grade", nullable = false)
+    private Integer highestGrade;
 
-    @Column(name = "highest_mark", nullable = false)
-    private Integer highestMark;
+    public Long getId() {
+        return id;
+    }
 
-    @Column(name = "entry_start_date", nullable = false)
-    private LocalDateTime entryStartDate = LocalDateTime.now();
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    @Column(name = "entry_end_date", nullable = false)
-    private LocalDateTime entryEndDate = LocalDateTime.parse("9999-12-31T00:00:00");
+    public String getName() {
+        return name;
+    }
 
-    @Column(name = "is_active", nullable = false)
-    Boolean isActive = true;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    @OneToOne(orphanRemoval = true)
-    @JoinColumn(name = "link_to_previous_entry_id")
-    private Task linkToPreviousEntry;
+    public Integer getHighestGrade() {
+        return highestGrade;
+    }
 
-    @Override
-    public Task clone() {
-        try {
-            Task clone = (Task) super.clone();
-            // TODO: copy mutable state here, so the clone can't change the internals of the original
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
+    public void setHighestGrade(Integer highestGrade) {
+        this.highestGrade = highestGrade;
     }
 }
