@@ -35,10 +35,10 @@ public class StudentController {
         return customMapper.mapList(allStudents, StudentDto.class);
     }
 
-    @GetMapping("/findAllStudentsByGroupName")
-    public List<StudentDto> findAllStudentsByGroupName(@RequestParam String groupName) {
-        List<Student> allStudentsByGroupName = studentService.findAllStudentsByGroupName(groupName);
-        return customMapper.mapList(allStudentsByGroupName, StudentDto.class);
+    @GetMapping("/findAllStudentsByGroupNumber")
+    public List<StudentDto> findAllStudentsByGroupNumber(@RequestParam String groupName) {
+        List<Student> allStudentsByGroupNumber = studentService.findAllStudentsByGroupNumber(groupName);
+        return customMapper.mapList(allStudentsByGroupNumber, StudentDto.class);
     }
 
     @GetMapping("/findAllStudentsByFullName")

@@ -9,7 +9,7 @@ public interface StudentService {
 
     Student addStudent(Student student);
     List<Student> findAllStudents();
-    List<Student> findAllStudentsByGroupName(String groupNumber);
+    List<Student> findAllStudentsByGroupNumber(String groupNumber);
     List<Student> findAllStudentsByFullName(FullName fullName);
     Student findStudentById(Long studentId);
     void updateStudentById(FullName newFullName, String newGroupNumber, Long studentId);

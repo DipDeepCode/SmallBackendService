@@ -27,7 +27,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> findAllStudentsByGroupName(String groupNumber) {
+    public List<Student> findAllStudentsByGroupNumber(String groupNumber) {
         return studentRepository.findByGroupNumberOrderByFullName_FirstNameAscFullName_LastNameAscFullName_PatronymicAsc(groupNumber);
     }
 
