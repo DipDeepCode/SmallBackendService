@@ -7,6 +7,7 @@ import ru.ddc.sbs.entities.FullName;
 import ru.ddc.sbs.entities.Student;
 import ru.ddc.sbs.services.student.StudentService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class StudentController {
     }
 
     @PostMapping("/addStudent")
-    public StudentDto addStudent(@RequestBody StudentDto studentDto) {
+    public StudentDto addStudent(@Valid @RequestBody StudentDto studentDto) {
         Student requestBodyStudent = customMapper.map(studentDto, Student.class);
         Student addedStudent = studentService.addStudent(requestBodyStudent);
         return customMapper.map(addedStudent, StudentDto.class);
@@ -41,7 +42,7 @@ public class StudentController {
     }
 
     @GetMapping("/findAllStudentsByFullName")
-    public List<StudentDto> findAllStudentsByFullName(@RequestBody FullName fullName) {
+    public List<StudentDto> findAllStudentsByFullName(@Valid @RequestBody FullName fullName) {
         List<Student> allStudentsByFullName = studentService.findAllStudentsByFullName(fullName);
         return customMapper.mapList(allStudentsByFullName, StudentDto.class);
     }
@@ -53,7 +54,7 @@ public class StudentController {
     }
 
     @PutMapping("/updateStudentById")
-    public void updateStudentById(@RequestBody FullName newFullName,
+    public void updateStudentById(@Valid @RequestBody FullName newFullName,
                                   @RequestParam String newGroupNumber,
                                   @RequestParam Long studentId) {
         studentService.updateStudentById(newFullName, newGroupNumber, studentId);

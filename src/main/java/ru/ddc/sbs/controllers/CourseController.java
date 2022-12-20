@@ -9,6 +9,7 @@ import ru.ddc.sbs.exceptions.ApiError;
 import ru.ddc.sbs.exceptions.PersistError;
 import ru.ddc.sbs.services.course.CourseService;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class CourseController {
     }
 
     @PostMapping("/addCourse")
-    public CourseDto addCourse(@RequestBody CourseDto courseDto) throws PersistError {
+    public CourseDto addCourse(@Valid @RequestBody CourseDto courseDto) throws PersistError {
         Course requestBodyCourse = customMapper.map(courseDto, Course.class);
         Course addedCourse = courseService.addCourse(requestBodyCourse);
         return customMapper.map(addedCourse, CourseDto.class);

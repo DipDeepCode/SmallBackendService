@@ -7,6 +7,7 @@ import ru.ddc.sbs.entities.Task;
 import ru.ddc.sbs.exceptions.PersistError;
 import ru.ddc.sbs.services.task.TaskService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class TaskController {
     }
 
     @PostMapping("/addTask")
-    public TaskDto addTask(@RequestBody TaskDto taskDto) throws PersistError {
+    public TaskDto addTask(@Valid @RequestBody TaskDto taskDto) throws PersistError {
         Task requestBodyTask = customMapper.map(taskDto, Task.class);
         Task addedTask = taskService.addTask(requestBodyTask);
         return customMapper.map(addedTask, TaskDto.class);
