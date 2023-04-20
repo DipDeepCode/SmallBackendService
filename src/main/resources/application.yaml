@@ -4,6 +4,9 @@ spring:
     url: jdbc:postgresql://<host>:<port>/<db_name>
     username: <username>
     password: <password>
+    properties:
+      hibernate:
+        default_schema: sbs
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
     open-in-view: false
