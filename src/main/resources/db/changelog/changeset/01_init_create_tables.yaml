@@ -38,7 +38,6 @@ databaseChangeLog:
                     nullable: false
                   name: is_active
                   type: BOOLEAN
-            schemaName: 'sbs'
             tableName: course
   - changeSet:
       id: 02_create_table_student
@@ -82,7 +81,6 @@ databaseChangeLog:
               - column:
                   name: patronymic
                   type: VARCHAR(255)
-            schemaName: 'sbs'
             tableName: student
   - changeSet:
       id: 03_create_table_student_data
@@ -119,7 +117,6 @@ databaseChangeLog:
                     primaryKeyName: pk_student_data
                   name: course_id
                   type: BIGINT
-            schemaName: 'sbs'
             tableName: student_data
   - changeSet:
       id: 04_create_table_student_grade
@@ -158,7 +155,6 @@ databaseChangeLog:
                     primaryKeyName: pk_student_grade
                   name: task_id
                   type: BIGINT
-            schemaName: 'sbs'
             tableName: student_grade
   - changeSet:
       id: 05_create_table_task
@@ -189,7 +185,6 @@ databaseChangeLog:
                     nullable: false
                   name: highest_grade
                   type: INTEGER
-            schemaName: 'sbs'
             tableName: task
   - changeSet:
       id: 06_create_table_task_deadline
@@ -221,7 +216,6 @@ databaseChangeLog:
                     primaryKeyName: pk_task_deadline
                   name: course_id
                   type: BIGINT
-            schemaName: 'sbs'
             tableName: task_deadline
   - changeSet:
       id: 07_create_uc_course_name
@@ -230,7 +224,6 @@ databaseChangeLog:
         - addUniqueConstraint:
             columnNames: name
             constraintName: uc_course_name
-            schemaName: 'sbs'
             tableName: course
   - changeSet:
       id: 08_create_uc_task_name
@@ -239,7 +232,6 @@ databaseChangeLog:
         - addUniqueConstraint:
             columnNames: name
             constraintName: uc_task_name
-            schemaName: 'sbs'
             tableName: task
   - changeSet:
       id: 09_create_fk_student_data_on_course
@@ -248,7 +240,6 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseColumnNames: course_id
             baseTableName: student_data
-            baseTableSchemaName: 'sbs'
             constraintName: fk_student_data_on_course
             deferrable: false
             initiallyDeferred: false
@@ -256,7 +247,6 @@ databaseChangeLog:
             onUpdate: NO ACTION
             referencedColumnNames: id
             referencedTableName: course
-            referencedTableSchemaName: 'sbs'
             validate: true
   - changeSet:
       id: 10_create_fk_student_data_on_student
@@ -265,7 +255,6 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseColumnNames: student_id
             baseTableName: student_data
-            baseTableSchemaName: 'sbs'
             constraintName: fk_student_data_on_student
             deferrable: false
             initiallyDeferred: false
@@ -273,7 +262,6 @@ databaseChangeLog:
             onUpdate: NO ACTION
             referencedColumnNames: id
             referencedTableName: student
-            referencedTableSchemaName: 'sbs'
             validate: true
   - changeSet:
       id: 11_create_fk_student_grade_on_course
@@ -282,7 +270,6 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseColumnNames: course_id
             baseTableName: student_grade
-            baseTableSchemaName: 'sbs'
             constraintName: fk_student_grade_on_course
             deferrable: false
             initiallyDeferred: false
@@ -290,7 +277,6 @@ databaseChangeLog:
             onUpdate: NO ACTION
             referencedColumnNames: id
             referencedTableName: course
-            referencedTableSchemaName: 'sbs'
             validate: true
   - changeSet:
       id: 12_create_fk_student_grade_on_student
@@ -299,7 +285,6 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseColumnNames: student_id
             baseTableName: student_grade
-            baseTableSchemaName: 'sbs'
             constraintName: fk_student_grade_on_student
             deferrable: false
             initiallyDeferred: false
@@ -307,7 +292,6 @@ databaseChangeLog:
             onUpdate: NO ACTION
             referencedColumnNames: id
             referencedTableName: student
-            referencedTableSchemaName: 'sbs'
             validate: true
   - changeSet:
       id: 13_create_fk_student_grade_on_task
@@ -316,7 +300,6 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseColumnNames: task_id
             baseTableName: student_grade
-            baseTableSchemaName: 'sbs'
             constraintName: fk_student_grade_on_task
             deferrable: false
             initiallyDeferred: false
@@ -324,7 +307,6 @@ databaseChangeLog:
             onUpdate: NO ACTION
             referencedColumnNames: id
             referencedTableName: task
-            referencedTableSchemaName: 'sbs'
             validate: true
   - changeSet:
       id: 14_create_fk_task_deadline_on_course
@@ -333,7 +315,6 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseColumnNames: course_id
             baseTableName: task_deadline
-            baseTableSchemaName: 'sbs'
             constraintName: fk_task_deadline_on_course
             deferrable: false
             initiallyDeferred: false
@@ -341,7 +322,6 @@ databaseChangeLog:
             onUpdate: NO ACTION
             referencedColumnNames: id
             referencedTableName: course
-            referencedTableSchemaName: 'sbs'
             validate: true
   - changeSet:
       id: 15_create_fk_task_deadline_on_task
@@ -350,7 +330,6 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseColumnNames: task_id
             baseTableName: task_deadline
-            baseTableSchemaName: 'sbs'
             constraintName: fk_task_deadline_on_task
             deferrable: false
             initiallyDeferred: false
@@ -358,6 +337,5 @@ databaseChangeLog:
             onUpdate: NO ACTION
             referencedColumnNames: id
             referencedTableName: task
-            referencedTableSchemaName: 'sbs'
             validate: true
 
